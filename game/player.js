@@ -15,24 +15,23 @@ Player.prototype.updatePosition = function() {
   if (this.pressingRight) {
     this.x += this.maxSpd;
     this.direction = 2
-    this.animCounter += 1
+    this.animCounter += 0.2
   }
   if (this.pressingLeft) {
     this.x -= this.maxSpd;
-    this.animCounter += 1
     this.direction = 1
+    this.animCounter += 0.2
   }
   if (this.pressingUp) {
     this.y -= this.maxSpd;
-    this.animCounter += 1
     this.direction = 3
+    this.animCounter += 0.2
   }
   if (this.pressingDown) {
     this.y += this.maxSpd;
-    this.animCounter += 1
     this.direction = 0
+    this.animCounter += 0.2
   }
-
 }
 
 module.exports = Player;
