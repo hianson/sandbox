@@ -3,29 +3,52 @@ var canvas = document.getElementById("ctx")
 var ctx = canvas.getContext("2d");
 ctx.imageSmoothingEnabled = false;
 
-var Img = {};
-Img.player = new Image();
-Img.player.src = '/public/hero.png';
+var Sprites = {};
+Sprites.player = new Image();
+Sprites.player.src = '/public/hero.png';
+Sprites.map = new Image();
+Sprites.map.src = '/public/tiles.png';
 
-socket.on('update', function(data1) {
+socket.on('update', function(d, m, l) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  for (var i = 0; i < data1.length; i++) {
+  //render map
+  for (var i = 0; i < m.layers[l].length; i++) {
+      var x = i % m.cols;
+      var y = Math.floor(i / m.cols)
+      var tile = m.layers[l][i]
+
+      if (tile !== 0) { // 0 => empty tile
+        ctx.drawImage(
+            Sprites.map,
+            (tile - 1) * m.tsize,
+            0,
+            m.tsize,
+            m.tsize,
+            x * m.tsize * 4,
+            y * m.tsize * 4,
+            m.tsize * 4,
+            m.tsize * 4
+        );
+      }
+    }
+
+  for (var i = 0; i < d.length; i++) {
     ctx.fillStyle = "steelblue";
-    var width = Img.player.width;
-    var height = Img.player.width;
-    var frameWidth = Img.player.width/3;
-    var frameHeight = Img.player.height/4;
-    var walkingMod = Math.floor(data1[i].animCounter) % 3
+    var width = Sprites.player.width;
+    var height = Sprites.player.width;
+    var frameWidth = Sprites.player.width/3;
+    var frameHeight = Sprites.player.height/4;
+    var walkingMod = Math.floor(d[i].animCounter) % 3
 
     ctx.drawImage(
-      Img.player,
+      Sprites.player,
       walkingMod*frameWidth,
-      data1[i].direction*frameHeight,
-      Img.player.width/3,
-      Img.player.height/4,
-      data1[i].x-width/2,
-      data1[i].y-height/2,
+      d[i].direction*frameHeight,
+      Sprites.player.width/3,
+      Sprites.player.height/4,
+      d[i].x-width/2,
+      d[i].y-height/2,
       width,height
     );
   }

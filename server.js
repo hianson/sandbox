@@ -1,8 +1,12 @@
-const newPlayerObject = require('./game/player.js');
 const express = require('express');
 const app = express();
+
 // server for socket.io:
 var serv = require('http').Server(app);
+
+//game
+var playerObject = require('./game/player.js');
+var mapObject = require('./game/map.js');
 
 const PORT = process.env.PORT || 3000
 serv.listen(PORT)
@@ -14,13 +18,15 @@ app.use('/public', express.static(__dirname + '/public'));
 
 
 var io = require('socket.io')(serv, {});
+
+var mapData = new mapObject();
 var SOCKET_LIST = {};
 var PLAYER_LIST = {};
 
 io.sockets.on('connection', function(socket) {
   socket.id = Math.random();
   // create a new player using random socket.id:
-  var player = new newPlayerObject(socket.id);
+  var player = new playerObject(socket.id);
   SOCKET_LIST[socket.id] = socket;
   // insert created player into PLAYER_LIST with socket.id key
   PLAYER_LIST[socket.id] = player;
@@ -52,13 +58,13 @@ io.sockets.on('connection', function(socket) {
 
 // loop thru every socket in socket list to send packets to each connection (rather than to each player in player list)
 setInterval(function() {
-  var playerPack = [];
+  var playerData = [];
   // for every socket (player) in the SOCKET_LIST:
     // changes player's positions and store as package so we can send new positions to all clients
   for (var i in PLAYER_LIST) {
     var player = PLAYER_LIST[i]
     player.updatePosition();
-    playerPack.push({
+    playerData.push({
       x: player.x,
       y: player.y,
       direction: player.direction,
@@ -69,6 +75,6 @@ setInterval(function() {
   // loop thru and send package to all clients to update their view with map and all player's new positions.
   for (var i in SOCKET_LIST) {
     var socket = SOCKET_LIST[i]
-    socket.emit('update', playerPack)
+    socket.emit('update', playerData, mapData, 0)
   }
 }, 1000/25)
