@@ -76,15 +76,14 @@ document.onkeyup = function(event) {
   } else if (event.keyCode === 87) {
     socket.emit('keyPress', {inputId: 'up', state: false});
   }
-
-  canvas.onclick = function(event) {
-    var rect = canvas.getBoundingClientRect();
-
-    socket.emit('onMouseDown', {x: Math.floor(event.clientX - rect.left), y: Math.floor(event.clientY - rect.top)});
-  }
-
-  canvas.onmouseup = function(event) {
-    socket.emit('onMouseUp')
-  }
-
 }
+
+canvas.addEventListener("click", function(event) {
+  var rect = canvas.getBoundingClientRect();
+
+  socket.emit('onMouseDown', {x: Math.floor(event.clientX - rect.left), y: Math.floor(event.clientY - rect.top)});
+})
+
+canvas.addEventListener("onmouseup", function(event) {
+  socket.emit('onMouseUp')
+})
