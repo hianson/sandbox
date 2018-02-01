@@ -11,23 +11,26 @@ Sprites.map.src = '/public/assets/tiles.png';
 
 socket.on('update', function(d, m, l) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  for (var i = 0; i < m.layers[l].length; i++) {
-      var x = i % m.cols;
-      var y = Math.floor(i / m.cols)
-      var tile = m.layers[l][i]
 
-      if (tile !== 0) {
-        ctx.drawImage(
-            Sprites.map,
-            (tile - 1) * m.tsize,
-            0,
-            m.tsize,
-            m.tsize,
-            x * m.tsize,
-            y * m.tsize,
-            m.tsize,
-            m.tsize
-        );
+  for (var i = 0; i < m.layers.length; i++) {
+    for (var j = 0; j < m.layers[i].length; j++) {
+        var x = j % m.cols;
+        var y = Math.floor(j / m.cols)
+        var tile = m.layers[i][j]
+
+        if (tile !== 0) {
+          ctx.drawImage(
+              Sprites.map,
+              (tile - 1) * m.tsize,
+              0,
+              m.tsize,
+              m.tsize,
+              x * m.tsize,
+              y * m.tsize,
+              m.tsize,
+              m.tsize
+          );
+        }
       }
     }
 
