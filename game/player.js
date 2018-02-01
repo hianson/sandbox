@@ -18,70 +18,68 @@ Player.prototype.updatePosition = function(mapData) {
   var prevX = this.x
   var prevY = this.y
 
+    var distanceX = Math.abs(this.x - this.targetX)
+    var distanceY = Math.abs(this.y - this.targetY)
+
+if (this.mouseDown === false) {
   if (this.pressingRight) {
-    this.x += this.maxSpd;
-    this.targetX = this.x
     this.direction = 2
-    this.animCounter += 0.2
+    // this.animCounter += 0.2
+    this.targetX += this.maxSpd;
   }
   if (this.pressingLeft) {
-    this.x -= this.maxSpd;
-    this.targetX = this.x
     this.direction = 1
-    this.animCounter += 0.2
+    // this.animCounter += 0.2
+    this.targetX -= this.maxSpd;
   }
   if (this.pressingUp) {
-    this.y -= this.maxSpd;
-    this.targetY = this.y
     this.direction = 3
-    this.animCounter += 0.2
+    // this.animCounter += 0.2
+    this.targetY -= this.maxSpd;
   }
   if (this.pressingDown) {
-    this.y += this.maxSpd;
-    this.targetY = this.y
     this.direction = 0
-    this.animCounter += 0.2
+    this.targetY += this.maxSpd;
   }
-
-  var distanceX = Math.abs(this.x - this.targetX)
-  var distanceY = Math.abs(this.y - this.targetY)
+  this.animCounter += 0.2
+}
 
   if (this.x < this.targetX) {
     if (distanceX < 7) {
       this.x += distanceX
     } else {
-      this.x += 7
+      this.x += this.maxSpd
     }
     this.direction = 2
   }
   if (this.y > this.targetY) {
-    if (distanceY < 7) {
+    if (distanceY < this.maxSpd) {
       this.y -= distanceY
     } else {
-      this.y -= 7
+      this.y -= this.maxSpd
     }
     this.direction = 3
   }
   if (this.x > this.targetX) {
-    if (distanceX < 7) {
+    if (distanceX < this.maxSpd) {
       this.x -= distanceX
     } else {
-      this.x -= 7
+      this.x -= this.maxSpd
     }
     this.direction = 1
   }
   if (this.y < this.targetY) {
-    if (distanceY < 7) {
+    if (distanceY < this.maxSpd) {
       this.y += distanceY
     } else {
-      this.y += 7
+      this.y += this.maxSpd
     }
     this.direction = 0
   }
-
+  this.animCounter += 0.2
 
   if (this.x === this.targetX && this.y === this.targetY) {
-    this.animCounter = 0;
+    this.animCounter = 1;
   }
 
   if (this.checkCollisions(mapData) === true) {
@@ -90,14 +88,10 @@ Player.prototype.updatePosition = function(mapData) {
     this.targetX = this.x
     this.targetY = this.y
   }
-
-  this.animCounter += 0.2
 }
 
-Player.prototype.clickMovement = function() {
-  if (this.mouseDown === true) {
-    // console.log('mouse is held down', this.animCounter)
-  }
+Player.prototype.mouseMovement = function() {
+
 }
 
 Player.prototype.checkCollisions = function(mapData) {
