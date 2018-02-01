@@ -45,7 +45,7 @@ Player.prototype.checkCollisions = function(mapData) {
   var playerX = Math.floor(this.x/mapData.tsize)
   var playerY = Math.floor(this.y/mapData.tsize)
   var playerPosIndex = playerX + playerY * 8
-  var tile = mapData.layers[0][playerPosIndex]
+  var tile = mapData.layers[1][playerPosIndex]
 
   if (tile === 7 || tile === 5 || tile === 6) {
     return true
