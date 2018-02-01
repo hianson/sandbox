@@ -83,7 +83,3 @@ canvas.addEventListener("click", function(event) {
 
   socket.emit('onMouseDown', {x: Math.floor(event.clientX - rect.left), y: Math.floor(event.clientY - rect.top)});
 })
-
-canvas.addEventListener("onmouseup", function(event) {
-  socket.emit('onMouseUp')
-})

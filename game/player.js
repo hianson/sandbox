@@ -15,76 +15,35 @@ function Player(id) {
 }
 
 Player.prototype.updatePosition = function(mapData) {
-  var prevX = this.x
-  var prevY = this.y
   var distanceX = Math.abs(this.x - this.targetX)
   var distanceY = Math.abs(this.y - this.targetY)
+  var prevX = this.x
+  var prevY = this.y
 
-  if (this.pressingRight) {
-    this.direction = 2
-    this.targetX += this.maxSpd;
-  }
-  if (this.pressingLeft) {
-    this.direction = 1
-    this.targetX -= this.maxSpd;
-  }
-  if (this.pressingUp) {
-    this.direction = 3
-    this.targetY -= this.maxSpd;
-  }
-  if (this.pressingDown) {
-    this.direction = 0
-    this.targetY += this.maxSpd;
-  }
+  this.pressingRight ? (this.direction = 2, this.targetX += this.maxSpd) : null;
+  this.pressingLeft ? (this.direction = 1, this.targetX -= this.maxSpd) : null;
+  this.pressingUp ? (this.direction = 3, this.targetY -= this.maxSpd) : null;
+  this.pressingDown ? (this.direction = 0, this.targetY += this.maxSpd) : null;
 
   if (this.x < this.targetX) {
-    if (distanceX < 7) {
-      this.x += distanceX
-    } else {
-      this.x += this.maxSpd
-    }
+    distanceX < this.maxSpd ? this.x += distanceX : this.x += this.maxSpd;
     this.direction = 2
   }
   if (this.y > this.targetY) {
-    if (distanceY < this.maxSpd) {
-      this.y -= distanceY
-    } else {
-      this.y -= this.maxSpd
-    }
+    distanceY < this.maxSpd ? this.y -= distanceY : this.y -= this.maxSpd;
     this.direction = 3
   }
   if (this.x > this.targetX) {
-    if (distanceX < this.maxSpd) {
-      this.x -= distanceX
-    } else {
-      this.x -= this.maxSpd
-    }
+    distanceX < this.maxSpd ? this.x -= distanceX : this.x -= this.maxSpd;
     this.direction = 1
   }
   if (this.y < this.targetY) {
-    if (distanceY < this.maxSpd) {
-      this.y += distanceY
-    } else {
-      this.y += this.maxSpd
-    }
+    distanceY < this.maxSpd ? this.y += distanceY : this.y += this.maxSpd;
     this.direction = 0
   }
-  this.animCounter += 0.2
-
-  if (this.x === this.targetX && this.y === this.targetY) {
-    this.animCounter = 1;
-  }
-
-  if (this.checkCollisions(mapData) === true) {
-    this.x = prevX
-    this.y = prevY
-    this.targetX = this.x
-    this.targetY = this.y
-  }
-}
-
-Player.prototype.mouseMovement = function() {
-
+  this.animCounter += 0.5
+  this.x === this.targetX && this.y === this.targetY ? this.animCounter = 1 : null;
+  this.checkCollisions(mapData) ? (this.x = prevX, this.y = prevY, this.targetX = this.x, this.targetY = this.y) : null;
 }
 
 Player.prototype.checkCollisions = function(mapData) {
@@ -96,6 +55,11 @@ Player.prototype.checkCollisions = function(mapData) {
   if (tile === 7 || tile === 5 || tile === 6) {
     return true
   }
+}
+
+Player.prototype.setCoordinates = function(data) {
+  this.targetX = data.x;
+  this.targetY = data.y;
 }
 
 module.exports = Player;

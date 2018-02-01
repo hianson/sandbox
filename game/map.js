@@ -23,14 +23,14 @@ function Map() {
     ]]
 }
 
-Map.prototype.getTile = function(layer, col, row) {
-  return this.layers[layer][row * map.cols + col];
-}
-
-// function to check if a position is inside of a wall
-Map.prototype.isPositionWall = function(pt) {
-  var gridX = Math.floor(pt.x / this.tsize);
-  var gridY = Math.floor(pt.y / this.tsize);
-}
+// Map.prototype.getTile = function(layer, col, row) {
+//   return this.layers[layer][row * map.cols + col];
+// }
+//
+// // function to check if a position is inside of a wall
+// Map.prototype.isPositionWall = function(pt) {
+//   var gridX = Math.floor(pt.x / this.tsize);
+//   var gridY = Math.floor(pt.y / this.tsize);
+// }
 
 module.exports = Map;

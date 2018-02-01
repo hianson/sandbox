@@ -48,13 +48,7 @@ io.sockets.on('connection', function(socket) {
   });
 
   socket.on('onMouseDown', function(data) {
-    player.targetX = data.x;
-    player.targetY = data.y;
-    player.mouseDown = true;
-  })
-
-  socket.on('onMouseUp', function(data) {
-    player.mouseDown = false;
+    player.setCoordinates(data);
   })
 
   socket.on('disconnect', function() {
