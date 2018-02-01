@@ -48,17 +48,13 @@ io.sockets.on('connection', function(socket) {
   });
 
   socket.on('onMouseDown', function(data) {
-    // console.log(data)
     player.targetX = data.x;
     player.targetY = data.y;
     player.mouseDown = true;
-    // console.log('player.mouseDown:', player.mouseDown)
-    // console.log(player.targetX, player.targetY)
   })
 
   socket.on('onMouseUp', function(data) {
     player.mouseDown = false;
-    // console.log('player.mouseDown:', player.mouseDown)
   })
 
   socket.on('disconnect', function() {
