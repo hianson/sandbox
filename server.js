@@ -1,10 +1,13 @@
 const express = require('express');
+const bodyParser= require('body-parser')
 const app = express();
+
+app.use(bodyParser.json({extended: true}))
 
 // server for socket.io:
 var serv = require('http').Server(app);
 
-//game
+//game vars
 var playerObject = require('./game/player.js');
 var mapObject = require('./game/map.js');
 
@@ -16,9 +19,7 @@ app.get('/', function(req, res) {
 });
 app.use('/public', express.static(__dirname + '/public'));
 
-
 var io = require('socket.io')(serv, {});
-
 var mapData = new mapObject();
 var SOCKET_LIST = {};
 var PLAYER_LIST = {};
@@ -72,3 +73,9 @@ setInterval(function() {
     socket.emit('update', playerData, mapData, 0)
   }
 }, 1000/25)
+
+app.post('/test', (req, res) => {
+  console.log('a post req was made!')
+  res.setHeader('Content-Type', 'application/json');
+  res.send(JSON.stringify({ sum: req.body.x + req.body.y }));
+})
