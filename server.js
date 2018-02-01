@@ -25,16 +25,11 @@ var PLAYER_LIST = {};
 
 io.sockets.on('connection', function(socket) {
   socket.id = Math.random();
-  // create a new player using random socket.id:
   var player = new playerObject(socket.id);
   SOCKET_LIST[socket.id] = socket;
-  // insert created player into PLAYER_LIST with socket.id key
   PLAYER_LIST[socket.id] = player;
   console.log('Connection made:', socket.id)
 
-  // while player connected, listen for these events:
-
-  // CHECK FOR COLLISIONS
   socket.on('keyPress', function(data) {
     if (data.inputId === 'left') {
       player.pressingLeft = data.state;
@@ -58,13 +53,9 @@ io.sockets.on('connection', function(socket) {
   })
 });
 
-
-
-// loop thru every socket in socket list to send packets to each connection (rather than to each player in player list)
 setInterval(function() {
   var playerData = [];
-  // for every socket (player) in the SOCKET_LIST:
-    // changes player's positions and store as package so we can send new positions to all clients
+
   for (var i in PLAYER_LIST) {
     var player = PLAYER_LIST[i]
     player.updatePosition(mapData);
@@ -76,7 +67,6 @@ setInterval(function() {
     })
   }
 
-  // loop thru and send package to all clients to update their view with map and all player's new positions.
   for (var i in SOCKET_LIST) {
     var socket = SOCKET_LIST[i]
     socket.emit('update', playerData, mapData, 0)

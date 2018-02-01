@@ -1,17 +1,16 @@
 function Player(id) {
+  this.id = id;
   this.x = 300;
   this.y = 300;
-  this.id = id;
+  this.targetX = 300;
+  this.targetY = 300;
   this.pressingRight = false;
   this.pressingLeft = false;
   this.pressingUp = false;
   this.pressingDown = false;
-  this.mouseDown = false;
   this.maxSpd = 7;
   this.direction = 0;
   this.animCounter = 0;
-  this.targetX = 300;
-  this.targetY = 300;
 }
 
 Player.prototype.updatePosition = function(mapData) {
