@@ -1,6 +1,6 @@
 function Player(id) {
-  this.x = 230;
-  this.y = 380;
+  this.x = 300;
+  this.y = 300;
   this.id = id;
   this.pressingRight = false;
   this.pressingLeft = false;
@@ -11,7 +11,10 @@ function Player(id) {
   this.animCounter = 0;
 }
 
-Player.prototype.updatePosition = function() {
+Player.prototype.updatePosition = function(mapData) {
+  var prevX = this.x
+  var prevY = this.y
+
   if (this.pressingRight) {
     this.x += this.maxSpd;
     this.direction = 2
@@ -31,6 +34,21 @@ Player.prototype.updatePosition = function() {
     this.y += this.maxSpd;
     this.direction = 0
     this.animCounter += 0.2
+  }
+  if (this.checkCollisions(mapData) === true) {
+    this.x = prevX
+    this.y = prevY
+  }
+}
+
+Player.prototype.checkCollisions = function(mapData) {
+  var playerX = Math.floor(this.x/mapData.tsize)
+  var playerY = Math.floor(this.y/mapData.tsize)
+  var playerPosIndex = playerX + playerY * 8
+  var tile = mapData.layers[0][playerPosIndex]
+
+  if (tile === 7 || tile === 5 || tile === 6) {
+    return true
   }
 }
 

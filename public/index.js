@@ -5,36 +5,33 @@ ctx.imageSmoothingEnabled = false;
 
 var Sprites = {};
 Sprites.player = new Image();
-Sprites.player.src = '/public/hero.png';
+Sprites.player.src = '/public/assets/hero.png';
 Sprites.map = new Image();
-Sprites.map.src = '/public/tiles.png';
+Sprites.map.src = '/public/assets/tiles.png';
 
 socket.on('update', function(d, m, l) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  //render map
   for (var i = 0; i < m.layers[l].length; i++) {
       var x = i % m.cols;
       var y = Math.floor(i / m.cols)
       var tile = m.layers[l][i]
 
-      if (tile !== 0) { // 0 => empty tile
+      if (tile !== 0) {
         ctx.drawImage(
             Sprites.map,
             (tile - 1) * m.tsize,
             0,
             m.tsize,
             m.tsize,
-            x * m.tsize * 4,
-            y * m.tsize * 4,
-            m.tsize * 4,
-            m.tsize * 4
+            x * m.tsize,
+            y * m.tsize,
+            m.tsize,
+            m.tsize
         );
       }
     }
 
   for (var i = 0; i < d.length; i++) {
-    ctx.fillStyle = "steelblue";
     var width = Sprites.player.width;
     var height = Sprites.player.width;
     var frameWidth = Sprites.player.width/3;

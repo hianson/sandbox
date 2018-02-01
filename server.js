@@ -33,10 +33,13 @@ io.sockets.on('connection', function(socket) {
   console.log('Connection made:', socket.id)
 
   // while player connected, listen for these events:
+
+  // CHECK FOR COLLISIONS
   socket.on('keyPress', function(data) {
+
+    // if client asks if they can move left,
     if (data.inputId === 'left') {
       player.pressingLeft = data.state;
-      // change player lookDirection here
     } else if (data.inputId === 'right') {
       player.pressingRight = data.state;
     } else if (data.inputId === 'up') {
@@ -44,6 +47,10 @@ io.sockets.on('connection', function(socket) {
     } else if (data.inputId === 'down') {
       player.pressingDown = data.state;
     }
+    // if (player.checkCollisions(mapData) === true) {
+    //   console.log('collision with tile: 7')
+    // }
+
   });
 
   socket.on('disconnect', function() {
@@ -63,7 +70,7 @@ setInterval(function() {
     // changes player's positions and store as package so we can send new positions to all clients
   for (var i in PLAYER_LIST) {
     var player = PLAYER_LIST[i]
-    player.updatePosition();
+    player.updatePosition(mapData);
     playerData.push({
       x: player.x,
       y: player.y,
@@ -76,5 +83,6 @@ setInterval(function() {
   for (var i in SOCKET_LIST) {
     var socket = SOCKET_LIST[i]
     socket.emit('update', playerData, mapData, 0)
+    // mapData.isPositionWall();
   }
 }, 1000/25)
