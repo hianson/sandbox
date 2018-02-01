@@ -17,7 +17,8 @@ Neat!
 # What is this?
 This is an exercise in essential JS/web dev skills disguised as a multiplayer video game.
 Some challenges were decision-making for separating client and server logic since users shouldn't abuse the server.
-I made this to practice implementing technologies like:
+Converting an object's coordinates from the server to draw it to the canvas was cool, and collision detection was also fun to explore.
+Besides that, I made this to practice implementing technologies like:
 - Node.js
 - Socket.io (real-time communication across browsers)
 - Express (serving files, handling CRUD requests w/ bodyParser)
