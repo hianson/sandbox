@@ -36,8 +36,6 @@ io.sockets.on('connection', function(socket) {
 
   // CHECK FOR COLLISIONS
   socket.on('keyPress', function(data) {
-
-    // if client asks if they can move left,
     if (data.inputId === 'left') {
       player.pressingLeft = data.state;
     } else if (data.inputId === 'right') {
@@ -47,18 +45,27 @@ io.sockets.on('connection', function(socket) {
     } else if (data.inputId === 'down') {
       player.pressingDown = data.state;
     }
-    // if (player.checkCollisions(mapData) === true) {
-    //   console.log('collision with tile: 7')
-    // }
-
   });
+
+  socket.on('onMouseDown', function(data) {
+    // console.log(data)
+    player.targetX = data.x;
+    player.targetY = data.y;
+    player.mouseDown = true;
+    // console.log('player.mouseDown:', player.mouseDown)
+    // console.log(player.targetX, player.targetY)
+  })
+
+  socket.on('onMouseUp', function(data) {
+    player.mouseDown = false;
+    // console.log('player.mouseDown:', player.mouseDown)
+  })
 
   socket.on('disconnect', function() {
     delete SOCKET_LIST[socket.id];
     delete PLAYER_LIST[socket.id];
     console.log('Connection ended.')
   })
-
 });
 
 
