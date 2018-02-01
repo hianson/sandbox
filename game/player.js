@@ -20,24 +20,21 @@ Player.prototype.updatePosition = function(mapData) {
   var distanceX = Math.abs(this.x - this.targetX)
   var distanceY = Math.abs(this.y - this.targetY)
 
-  if (this.mouseDown === false) {
-    if (this.pressingRight) {
-      this.direction = 2
-      this.targetX += this.maxSpd;
-    }
-    if (this.pressingLeft) {
-      this.direction = 1
-      this.targetX -= this.maxSpd;
-    }
-    if (this.pressingUp) {
-      this.direction = 3
-      this.targetY -= this.maxSpd;
-    }
-    if (this.pressingDown) {
-      this.direction = 0
-      this.targetY += this.maxSpd;
-    }
-    this.animCounter += 0.2
+  if (this.pressingRight) {
+    this.direction = 2
+    this.targetX += this.maxSpd;
+  }
+  if (this.pressingLeft) {
+    this.direction = 1
+    this.targetX -= this.maxSpd;
+  }
+  if (this.pressingUp) {
+    this.direction = 3
+    this.targetY -= this.maxSpd;
+  }
+  if (this.pressingDown) {
+    this.direction = 0
+    this.targetY += this.maxSpd;
   }
 
   if (this.x < this.targetX) {
