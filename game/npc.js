@@ -1,23 +1,10 @@
-function Npc(id, x, y, spriteType, spriteCols, spriteRows, size) {
-  this.id = id;
-  this.x = x;
-  this.y = y;
-  this.targetX = this.x;
-  this.targetY = this.y;
-  this.maxSpd = 1;
-  this.direction = 0;
-  this.animCounter = 0;
-  this.animSpeed = 0.1
-  this.npcData = {
-    walkDistance: 40,
-    walking: false
-  }
-  this.spriteData = {
-    spriteType: spriteType,
-    spriteCols: spriteCols,
-    spriteRows: spriteRows,
-    walkingMod: Math.floor(this.animCounter) % spriteCols,
-    drawSize: 2
+var Character = require('./character.js');
+
+class Npc extends Character {
+  constructor(id, x, y, speed, animSpeed, walkDistance, spriteType, spriteCols, spriteRows, size) {
+    super(id, x, y, speed, animSpeed, spriteType, spriteCols, spriteRows, size)
+    this.walkDistance = walkDistance;
+    this.walking = false;
   }
 }
 
@@ -30,55 +17,47 @@ Npc.prototype.updatePosition = function(mapData) {
   this.setCoordinates();
 
   if (this.x < this.targetX) {
-    distanceX < this.maxSpd ? this.x += distanceX : this.x += this.maxSpd;
+    distanceX < this.speed ? this.x += distanceX : this.x += this.speed;
     this.direction = 2
   }
   if (this.y > this.targetY) {
-    distanceY < this.maxSpd ? this.y -= distanceY : this.y -= this.maxSpd;
+    distanceY < this.speed ? this.y -= distanceY : this.y -= this.speed;
     this.direction = 3
   }
   if (this.x > this.targetX) {
-    distanceX < this.maxSpd ? this.x -= distanceX : this.x -= this.maxSpd;
+    distanceX < this.speed ? this.x -= distanceX : this.x -= this.speed;
     this.direction = 1
   }
   if (this.y < this.targetY) {
-    distanceY < this.maxSpd ? this.y += distanceY : this.y += this.maxSpd;
+    distanceY < this.speed ? this.y += distanceY : this.y += this.speed;
     this.direction = 0
   }
+  this.x === this.targetX && this.y === this.targetY ? (this.walking = false, this.animCounter = 0) : null;
   this.animCounter += this.animSpeed
-  this.x === this.targetX && this.y === this.targetY ? (this.npcData.walking = false, this.animCounter = 0) : null;
+
   this.checkCollisions(mapData) ? (this.x = prevX, this.y = prevY, this.targetX = this.x, this.targetY = this.y) : null;
 }
 
-Npc.prototype.checkCollisions = function(mapData) {
-  var playerX = Math.floor(this.x/mapData.tsize)
-  var playerY = Math.floor(this.y/mapData.tsize)
-  var playerPosIndex = playerX + playerY * 8
-  var tile = mapData.layers[1][playerPosIndex]
-
-  if (tile === 7 || tile === 5 || tile === 6) return true;
-}
-
 Npc.prototype.setCoordinates = function() {
-  if (this.npcData.walking === true) return;
+  if (this.walking === true) return;
 
   if (Math.random() > 0.98) {
     var npcDirection = Math.floor(Math.random() * 4)
     switch (npcDirection) {
       case 0:
-        this.targetY += this.npcData.walkDistance;
+        this.targetY += this.walkDistance;
         break;
       case 1:
-        this.targetX -= this.npcData.walkDistance;
+        this.targetX -= this.walkDistance;
         break;
       case 2:
-        this.targetX += this.npcData.walkDistance;
+        this.targetX += this.walkDistance;
         break;
       case 3:
-        this.targetY -= this.npcData.walkDistance;
+        this.targetY -= this.walkDistance;
         break;
     }
-    this.npcData.walking = true;
+    this.walking = !(this.x === this.targetX && this.y === this.targetY);
   }
 }
 

@@ -53,8 +53,8 @@ socket.on('update', function(d, m, l) {
       direction*frameHeight,
       frameWidth,
       frameHeight,
-      d[i].x-width/2,
-      d[i].y-height/2,
+      d[i].x-(frameWidth*size/2),
+      d[i].y-(frameHeight*size/2),
       frameWidth * size,
       frameHeight * size
     );
