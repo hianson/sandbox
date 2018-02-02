@@ -28,14 +28,14 @@ var PLAYER_LIST = {};
 var NPC_LIST = {};
 
 var chicken = new npcObject(
-  123, 100, 300, 1, 40, "chicken", 2, 5, 2
+  123, 100, 300, 1, 0.05, 40, "chicken", 2, 5, 2
 );
 PLAYER_LIST[123] = chicken;
 
 io.sockets.on('connection', function(socket) {
   socket.id = Math.random();
   var player = new playerObject(
-    socket.id, 300, 300, 5, "player", 3, 4, 3
+    socket.id, 300, 300, 5, 0.3, "player", 3, 4, 3
   );
   SOCKET_LIST[socket.id] = socket;
   PLAYER_LIST[socket.id] = player;

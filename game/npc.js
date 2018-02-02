@@ -1,8 +1,8 @@
 var Character = require('./character.js');
 
 class Npc extends Character {
-  constructor(id, x, y, speed, walkDistance, spriteType, spriteCols, spriteRows, size) {
-    super(id, x, y, speed, spriteType, spriteCols, spriteRows, size)
+  constructor(id, x, y, speed, animSpeed, walkDistance, spriteType, spriteCols, spriteRows, size) {
+    super(id, x, y, speed, animSpeed, spriteType, spriteCols, spriteRows, size)
     this.npcData = {
       walkDistance: walkDistance,
       walking: false

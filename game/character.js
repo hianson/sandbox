@@ -1,5 +1,5 @@
 class Character {
-  constructor(id, x, y, speed, spriteType, spriteCols, spriteRows, size) {
+  constructor(id, x, y, speed, animSpeed, spriteType, spriteCols, spriteRows, size) {
     this.id = id;
     this.x = x;
     this.y = y;
@@ -7,6 +7,7 @@ class Character {
     this.targetY = this.y;
     this.speed = speed;
     this.direction = 0;
+    this.animSpeed = animSpeed;
     this.animCounter = 0;
     this.spriteData = {
       spriteType: spriteType,
