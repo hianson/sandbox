@@ -4,9 +4,12 @@ function Npc(id, x, y) {
   this.y = 300;
   this.targetX = this.x;
   this.targetY = this.y;
-  this.maxSpd = 4;
+  this.maxSpd = 1;
   this.direction = 0;
   this.animCounter = 0;
+  this.animSpeed = 0.1
+  this.walking = false;
+  this.walkingDistance = 40;
 }
 
 Npc.prototype.updatePosition = function(mapData) {
@@ -14,6 +17,8 @@ Npc.prototype.updatePosition = function(mapData) {
   var distanceY = Math.abs(this.y - this.targetY)
   var prevX = this.x
   var prevY = this.y
+
+  this.setCoordinates();
 
   if (this.x < this.targetX) {
     distanceX < this.maxSpd ? this.x += distanceX : this.x += this.maxSpd;
@@ -31,8 +36,8 @@ Npc.prototype.updatePosition = function(mapData) {
     distanceY < this.maxSpd ? this.y += distanceY : this.y += this.maxSpd;
     this.direction = 0
   }
-  this.animCounter += 0.5
-  this.x === this.targetX && this.y === this.targetY ? this.animCounter = 1 : null;
+  this.animCounter += this.animSpeed
+  this.x === this.targetX && this.y === this.targetY ? (this.walking = false, this.animCounter = 1) : null;
   this.checkCollisions(mapData) ? (this.x = prevX, this.y = prevY, this.targetX = this.x, this.targetY = this.y) : null;
 }
 
@@ -47,10 +52,30 @@ Npc.prototype.checkCollisions = function(mapData) {
   }
 }
 
-Npc.prototype.setCoordinates = function(data) {
+Npc.prototype.setCoordinates = function() {
+  if (this.walking === true) {
+    return;
+  }
+  var npcWalk = Math.random() > 0.98
 
-  this.targetX = data.x;
-  this.targetY = data.y;
+  if (npcWalk) {
+    var npcDirection = Math.floor(Math.random() * 4)
+    switch (npcDirection) {
+      case 0:
+        this.targetY += this.walkingDistance;
+        break;
+      case 1:
+        this.targetX -= this.walkingDistance;
+        break;
+      case 2:
+        this.targetX += this.walkingDistance;
+        break;
+      case 3:
+        this.targetY -= this.walkingDistance;
+        break;
+    }
+    this.walking = true;
+  }
 }
 
 module.exports = Npc;
