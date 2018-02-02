@@ -1,7 +1,7 @@
-function Player(id, x, y, spriteType, spritesheetWidth, spritesheetHeight, spriteCols, spriteRows, size) {
+function Player(id, x, y, spriteType, spriteCols, spriteRows, size) {
   this.id = id;
-  this.x = 300;
-  this.y = 300;
+  this.x = x;
+  this.y = y;
   this.targetX = this.x;
   this.targetY = this.y;
   // DRY up keyboard presses
@@ -14,12 +14,10 @@ function Player(id, x, y, spriteType, spritesheetWidth, spritesheetHeight, sprit
   this.animCounter = 0;
   this.spriteData = {
     spriteType: spriteType,
-    spritesheetWidth: spritesheetWidth,
-    spritesheetHeight: spritesheetHeight,
     spriteCols: spriteCols,
     spriteRows: spriteRows,
     walkingMod: Math.floor(this.animCounter) % spriteCols,
-    size: 3
+    drawSize: 3
   }
 }
 

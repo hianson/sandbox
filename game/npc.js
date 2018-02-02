@@ -1,7 +1,7 @@
-function Npc(id, x, y, spriteType, spritesheetWidth, spritesheetHeight, spriteCols, spriteRows, size) {
+function Npc(id, x, y, spriteType, spriteCols, spriteRows, size) {
   this.id = id;
-  this.x = 100;
-  this.y = 300;
+  this.x = x;
+  this.y = y;
   this.targetX = this.x;
   this.targetY = this.y;
   this.maxSpd = 1;
@@ -14,12 +14,10 @@ function Npc(id, x, y, spriteType, spritesheetWidth, spritesheetHeight, spriteCo
   }
   this.spriteData = {
     spriteType: spriteType,
-    spritesheetWidth: spritesheetWidth,
-    spritesheetHeight: spritesheetHeight,
     spriteCols: spriteCols,
     spriteRows: spriteRows,
     walkingMod: Math.floor(this.animCounter) % spriteCols,
-    size: 2
+    drawSize: 2
   }
 }
 

@@ -32,8 +32,6 @@ var chicken = new npcObject(
   100,
   300,
   "chicken",
-  Sprites.chicken.width,
-  Sprites.chicken.height,
   2,
   5
 );
@@ -46,8 +44,6 @@ io.sockets.on('connection', function(socket) {
     300,
     300,
     "player",
-    Sprites.player.width,
-    Sprites.player.height,
     3,
     4
   );
@@ -93,7 +89,6 @@ setInterval(function() {
       direction: player.direction,
       animCounter: player.animCounter,
       spriteData: player.spriteData,
-      size: player.size
     })
   }
 

@@ -37,13 +37,14 @@ socket.on('update', function(d, m, l) {
     }
 
   for (var i = 0; i < d.length; i++) {
-    var sprite = Sprites[d[i].spriteData.spriteType]
+    var type = d[i].spriteData.spriteType
+    var sprite = Sprites[type]
     var direction = d[i].direction
-    var frameWidth = Sprites[d[i].spriteData.spriteType].width / d[i].spriteData.spriteCols;
-    var frameHeight = Sprites[d[i].spriteData.spriteType].height / d[i].spriteData.spriteRows;
-    var width = Sprites[d[i].spriteData.spriteType].width;
-    var height = Sprites[d[i].spriteData.spriteType].height;
-    var size = d[i].spriteData.size
+    var frameWidth = Sprites[type].width / d[i].spriteData.spriteCols;
+    var frameHeight = Sprites[type].height / d[i].spriteData.spriteRows;
+    var width = Sprites[type].width;
+    var height = Sprites[type].height;
+    var size = d[i].spriteData.drawSize
     var walkingMod = Math.floor(d[i].animCounter) % d[i].spriteData.spriteCols
 
     ctx.drawImage(
