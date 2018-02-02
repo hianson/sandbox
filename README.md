@@ -1,4 +1,4 @@
-# sandbox: [https://still-ridge-56336.herokuapp.com/](https://still-ridge-56336.herokuapp.com/)
+# sandbox: <a href="https://still-ridge-56336.herokuapp.com/" target="_blank">https://still-ridge-56336.herokuapp.com/</a>
 
 ### Making a POST request to /test:
 
