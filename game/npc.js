@@ -14,34 +14,18 @@ Npc.prototype.updatePosition = function(mapData) {
   var prevX = this.x
   var prevY = this.y
 
-  this.setCoordinates();
-
-  if (this.x < this.targetX) {
-    distanceX < this.speed ? this.x += distanceX : this.x += this.speed;
-    this.direction = 2
-  }
-  if (this.y > this.targetY) {
-    distanceY < this.speed ? this.y -= distanceY : this.y -= this.speed;
-    this.direction = 3
-  }
-  if (this.x > this.targetX) {
-    distanceX < this.speed ? this.x -= distanceX : this.x -= this.speed;
-    this.direction = 1
-  }
-  if (this.y < this.targetY) {
-    distanceY < this.speed ? this.y += distanceY : this.y += this.speed;
-    this.direction = 0
-  }
-  this.x === this.targetX && this.y === this.targetY ? (this.walking = false, this.animCounter = 0) : null;
+  this.npcWalk(0.98);
+  this.updateCharacterPosition(distanceX, distanceY);
+  this.x === this.targetX && this.y === this.targetY ? (this.walking = false, this.animCounter = 1) : null;
   this.animCounter += this.animSpeed
 
   this.checkCollisions(mapData) ? (this.x = prevX, this.y = prevY, this.targetX = this.x, this.targetY = this.y) : null;
 }
 
-Npc.prototype.setCoordinates = function() {
+Npc.prototype.npcWalk = function(chance) {
   if (this.walking === true) return;
 
-  if (Math.random() > 0.98) {
+  if (Math.random() > chance) {
     var npcDirection = Math.floor(Math.random() * 4)
     switch (npcDirection) {
       case 0:
@@ -57,7 +41,7 @@ Npc.prototype.setCoordinates = function() {
         this.targetY -= this.walkDistance;
         break;
     }
-    this.walking = !(this.x === this.targetX && this.y === this.targetY);
+    this.walking = true;
   }
 }
 

@@ -68,15 +68,15 @@ setInterval(function() {
   var packet = [];
 
   for (var i in PLAYER_LIST) {
-    var player = PLAYER_LIST[i]
+    var character = PLAYER_LIST[i]
 
-    player.updatePosition(mapData);
+    character.updatePosition(mapData);
     packet.push({
-      x: player.x,
-      y: player.y,
-      direction: player.direction,
-      animCounter: player.animCounter,
-      spriteData: player.spriteData,
+      x: character.x,
+      y: character.y,
+      direction: character.direction,
+      animCounter: character.animCounter,
+      spriteData: character.spriteData,
     })
   }
 

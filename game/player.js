@@ -18,6 +18,8 @@ Player.prototype.updatePosition = function(mapData) {
 
   this.handleKeypress();
   this.updateCharacterPosition(distanceX, distanceY)
+  this.x === this.targetX && this.y === this.targetY ? this.animCounter = 1 : null;
+  this.animCounter += this.animSpeed;
 
   this.checkCollisions(mapData) ? (this.x = prevX, this.y = prevY, this.targetX = this.x, this.targetY = this.y) : null;
 }

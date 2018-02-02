@@ -49,8 +49,6 @@ Character.prototype.updateCharacterPosition = function(dx, dy) {
     dy < this.speed ? this.y += dy : this.y += this.speed;
     this.direction = 0
   }
-  this.x === this.targetX && this.y === this.targetY ? this.animCounter = 1 : null;
-  this.animCounter += this.animSpeed;
 }
 
 module.exports = Character;
