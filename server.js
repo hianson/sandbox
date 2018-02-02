@@ -8,6 +8,7 @@ app.use(bodyParser.json({extended: true}))
 var serv = require('http').Server(app);
 
 //game vars
+var Sprites = require('./game/spriteLoader.js');
 var playerObject = require('./game/player.js');
 var npcObject = require('./game/npc.js');
 var mapObject = require('./game/map.js');
@@ -26,12 +27,30 @@ var SOCKET_LIST = {};
 var PLAYER_LIST = {};
 var NPC_LIST = {};
 
-var chicken = new npcObject();
-NPC_LIST[chicken] = chicken;
+var chicken = new npcObject(
+  123,
+  100,
+  300,
+  "chicken",
+  Sprites.chicken.width,
+  Sprites.chicken.height,
+  2,
+  5
+);
+PLAYER_LIST[123] = chicken;
 
 io.sockets.on('connection', function(socket) {
   socket.id = Math.random();
-  var player = new playerObject(socket.id);
+  var player = new playerObject(
+    socket.id,
+    300,
+    300,
+    "player",
+    Sprites.player.width,
+    Sprites.player.height,
+    3,
+    4
+  );
   SOCKET_LIST[socket.id] = socket;
   PLAYER_LIST[socket.id] = player;
   console.log('Connection made:', socket.id)
@@ -50,6 +69,8 @@ io.sockets.on('connection', function(socket) {
 
   socket.on('onMouseDown', function(data) {
     player.setCoordinates(data);
+    console.log(PLAYER_LIST)
+
   })
 
   socket.on('disconnect', function() {
@@ -60,34 +81,19 @@ io.sockets.on('connection', function(socket) {
 });
 
 setInterval(function() {
-  // create packet that contains both player and npc data
-  var packet = {
-    playerData: [],
-    npcData: []
-  }
-  var playerData = [];
+  var packet = [];
 
   for (var i in PLAYER_LIST) {
     var player = PLAYER_LIST[i]
 
     player.updatePosition(mapData);
-    packet.playerData.push({
+    packet.push({
       x: player.x,
       y: player.y,
       direction: player.direction,
-      animCounter: player.animCounter
-    })
-  }
-
-  for (var i in NPC_LIST) {
-    var player = NPC_LIST[i]
-
-    player.updatePosition(mapData);
-    packet.npcData.push({
-      x: player.x,
-      y: player.y,
-      direction: player.direction,
-      animCounter: player.animCounter
+      animCounter: player.animCounter,
+      spriteData: player.spriteData,
+      size: player.size
     })
   }
 

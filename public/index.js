@@ -36,41 +36,26 @@ socket.on('update', function(d, m, l) {
       }
     }
 
-  for (var i = 0; i < d.npcData.length; i++) {
-    var width = Sprites.chicken.width;
-    var height = Sprites.chicken.width;
-    var frameWidth = Sprites.chicken.width/2;
-    var frameHeight = Sprites.chicken.height/5;
-    var walkingMod = Math.floor(d.npcData[i].animCounter) % 2
+  for (var i = 0; i < d.length; i++) {
+    var sprite = Sprites[d[i].spriteData.spriteType]
+    var direction = d[i].direction
+    var frameWidth = Sprites[d[i].spriteData.spriteType].width / d[i].spriteData.spriteCols;
+    var frameHeight = Sprites[d[i].spriteData.spriteType].height / d[i].spriteData.spriteRows;
+    var width = Sprites[d[i].spriteData.spriteType].width;
+    var height = Sprites[d[i].spriteData.spriteType].height;
+    var size = d[i].spriteData.size
+    var walkingMod = Math.floor(d[i].animCounter) % d[i].spriteData.spriteCols
 
     ctx.drawImage(
-      Sprites.chicken,
+      sprite,
       walkingMod*frameWidth,
-      d.npcData[i].direction*frameHeight,
+      direction*frameHeight,
       frameWidth,
       frameHeight,
-      d.npcData[i].x-width/2,
-      d.npcData[i].y-height/2,
-      width,height
-    );
-  }
-
-  for (var i = 0; i < d.playerData.length; i++) {
-    var width = Sprites.player.width;
-    var height = Sprites.player.width;
-    var frameWidth = Sprites.player.width/3;
-    var frameHeight = Sprites.player.height/4;
-    var walkingMod = Math.floor(d.playerData[i].animCounter) % 3
-
-    ctx.drawImage(
-      Sprites.player,
-      walkingMod*frameWidth,
-      d.playerData[i].direction*frameHeight,
-      Sprites.player.width/3,
-      Sprites.player.height/4,
-      d.playerData[i].x-width/2,
-      d.playerData[i].y-height/2,
-      width,height
+      d[i].x-width/2,
+      d[i].y-height/2,
+      frameWidth * size,
+      frameHeight * size
     );
   }
 })
