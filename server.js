@@ -60,13 +60,18 @@ io.sockets.on('connection', function(socket) {
 });
 
 setInterval(function() {
+  // create packet that contains both player and npc data
+  var packet = {
+    playerData: [],
+    npcData: []
+  }
   var playerData = [];
 
   for (var i in PLAYER_LIST) {
     var player = PLAYER_LIST[i]
 
     player.updatePosition(mapData);
-    playerData.push({
+    packet.playerData.push({
       x: player.x,
       y: player.y,
       direction: player.direction,
@@ -78,7 +83,7 @@ setInterval(function() {
     var player = NPC_LIST[i]
 
     player.updatePosition(mapData);
-    playerData.push({
+    packet.npcData.push({
       x: player.x,
       y: player.y,
       direction: player.direction,
@@ -88,7 +93,7 @@ setInterval(function() {
 
   for (var i in SOCKET_LIST) {
     var socket = SOCKET_LIST[i]
-    socket.emit('update', playerData, mapData, 0)
+    socket.emit('update', packet, mapData, 0)
   }
 }, 1000/25)
 

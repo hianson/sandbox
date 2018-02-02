@@ -37,7 +37,7 @@ Npc.prototype.updatePosition = function(mapData) {
     this.direction = 0
   }
   this.animCounter += this.animSpeed
-  this.x === this.targetX && this.y === this.targetY ? (this.walking = false, this.animCounter = 1) : null;
+  this.x === this.targetX && this.y === this.targetY ? (this.walking = false, this.animCounter = 0) : null;
   this.checkCollisions(mapData) ? (this.x = prevX, this.y = prevY, this.targetX = this.x, this.targetY = this.y) : null;
 }
 
