@@ -31,7 +31,7 @@ Player.prototype.handleKeypress = function() {
   this.pressingDown ? this.targetY += this.speed : null;
 }
 
-Player.prototype.setCoordinates = function(data) {
+Player.prototype.handleClick = function(data) {
   this.targetX = data.x;
   this.targetY = data.y;
 }

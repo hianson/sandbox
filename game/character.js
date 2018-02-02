@@ -15,7 +15,6 @@ class Character {
       spriteType: spriteType,
       spriteCols: spriteCols,
       spriteRows: spriteRows,
-      walkingMod: Math.floor(this.animCounter) % spriteCols,
       drawSize: size
     }
   }

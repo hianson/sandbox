@@ -4,14 +4,10 @@ const app = express();
 
 app.use(bodyParser.json({extended: true}))
 
-// server for socket.io:
+var Player = require('./game/player.js');
+var Npc = require('./game/npc.js');
+var Map = require('./game/map.js');
 var serv = require('http').Server(app);
-
-//game vars
-var Sprites = require('./game/spriteLoader.js');
-var playerObject = require('./game/player.js');
-var npcObject = require('./game/npc.js');
-var mapObject = require('./game/map.js');
 
 const PORT = process.env.PORT || 3000
 serv.listen(PORT)
@@ -22,19 +18,19 @@ app.get('/', function(req, res) {
 app.use('/public', express.static(__dirname + '/public'));
 
 var io = require('socket.io')(serv, {});
-var mapData = new mapObject();
+var map = new Map();
 var SOCKET_LIST = {};
 var PLAYER_LIST = {};
 var NPC_LIST = {};
 
-var chicken = new npcObject(
+var chicken = new Npc(
   123, 100, 300, 1, 0.05, 40, "chicken", 2, 5, 2
 );
 PLAYER_LIST[123] = chicken;
 
 io.sockets.on('connection', function(socket) {
   socket.id = Math.random();
-  var player = new playerObject(
+  var player = new Player(
     socket.id, 300, 300, 5, 0.3, "player", 3, 4, 3
   );
   SOCKET_LIST[socket.id] = socket;
@@ -54,7 +50,7 @@ io.sockets.on('connection', function(socket) {
   });
 
   socket.on('onMouseDown', function(data) {
-    player.setCoordinates(data);
+    player.handleClick(data);
   })
 
   socket.on('disconnect', function() {
@@ -70,7 +66,7 @@ setInterval(function() {
   for (var i in PLAYER_LIST) {
     var character = PLAYER_LIST[i]
 
-    character.updatePosition(mapData);
+    character.updatePosition(map);
     packet.push({
       x: character.x,
       y: character.y,
@@ -82,7 +78,7 @@ setInterval(function() {
 
   for (var i in SOCKET_LIST) {
     var socket = SOCKET_LIST[i]
-    socket.emit('update', packet, mapData, 0)
+    socket.emit('update', packet, map, 0)
   }
 }, 1000/25)
 

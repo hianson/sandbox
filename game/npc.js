@@ -5,6 +5,7 @@ class Npc extends Character {
     super(id, x, y, speed, animSpeed, spriteType, spriteCols, spriteRows, size)
     this.walkDistance = walkDistance;
     this.walking = false;
+    this.walkChance = 0.98;
   }
 }
 
@@ -14,7 +15,7 @@ Npc.prototype.updatePosition = function(mapData) {
   var prevX = this.x
   var prevY = this.y
 
-  this.npcWalk(0.98);
+  this.npcWalk(this.walkChance);
   this.updateCharacterPosition(distanceX, distanceY);
   this.x === this.targetX && this.y === this.targetY ? (this.walking = false, this.animCounter = 1) : null;
   this.animCounter += this.animSpeed
