@@ -47,8 +47,8 @@ socket.on('update', function(d, m, l) {
       Sprites.chicken,
       walkingMod*frameWidth,
       d.npcData[i].direction*frameHeight,
-      Sprites.chicken.width/2,
-      Sprites.chicken.height/5,
+      frameWidth,
+      frameHeight,
       d.npcData[i].x-width/2,
       d.npcData[i].y-height/2,
       width,height

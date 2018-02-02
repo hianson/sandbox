@@ -1,4 +1,4 @@
-function Player(id, x, y) {
+function Player(id, x, y, spriteType, spritesheetWidth, spritesheetHeight, spriteCols, spriteRows) {
   this.id = id;
   this.x = 300;
   this.y = 300;
@@ -11,6 +11,14 @@ function Player(id, x, y) {
   this.maxSpd = 5;
   this.direction = 0;
   this.animCounter = 0;
+  this.spriteData = {
+    spriteType: spriteType,
+    spritesheetWidth: spritesheetWidth,
+    spritesheetHeight: spritesheetHeight,
+    frameWidth: spritesheetWidth / spriteCols,
+    frameHeight: spritesheetHeight / spriteRows,
+    walkingMod: Math.floor(this.animCounter) % spriteCols
+  }
 }
 
 Player.prototype.updatePosition = function(mapData) {
@@ -40,7 +48,7 @@ Player.prototype.updatePosition = function(mapData) {
     distanceY < this.maxSpd ? this.y += distanceY : this.y += this.maxSpd;
     this.direction = 0
   }
-  this.animCounter += 0.5
+  this.animCounter += 0.3
   this.x === this.targetX && this.y === this.targetY ? this.animCounter = 1 : null;
   this.checkCollisions(mapData) ? (this.x = prevX, this.y = prevY, this.targetX = this.x, this.targetY = this.y) : null;
 }

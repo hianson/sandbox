@@ -1,4 +1,4 @@
-function Npc(id, x, y) {
+function Npc(id, x, y, spriteType, spritesheetWidth, spritesheetHeight, spriteCols, spriteRows) {
   this.id = id;
   this.x = 100;
   this.y = 300;
@@ -8,8 +8,18 @@ function Npc(id, x, y) {
   this.direction = 0;
   this.animCounter = 0;
   this.animSpeed = 0.1
-  this.walking = false;
-  this.walkingDistance = 40;
+  this.npcData = {
+    walkDistance: 40,
+    walking: false
+  }
+  this.spriteData = {
+    spriteType: spriteType,
+    spritesheetWidth: spritesheetWidth,
+    spritesheetHeight: spritesheetHeight,
+    frameWidth: spritesheetWidth / spriteCols,
+    frameHeight: spritesheetHeight / spriteRows,
+    walkingMod: Math.floor(this.animCounter) % spriteCols
+  }
 }
 
 Npc.prototype.updatePosition = function(mapData) {
@@ -37,7 +47,7 @@ Npc.prototype.updatePosition = function(mapData) {
     this.direction = 0
   }
   this.animCounter += this.animSpeed
-  this.x === this.targetX && this.y === this.targetY ? (this.walking = false, this.animCounter = 0) : null;
+  this.x === this.targetX && this.y === this.targetY ? (this.npcData.walking = false, this.animCounter = 0) : null;
   this.checkCollisions(mapData) ? (this.x = prevX, this.y = prevY, this.targetX = this.x, this.targetY = this.y) : null;
 }
 
@@ -51,25 +61,25 @@ Npc.prototype.checkCollisions = function(mapData) {
 }
 
 Npc.prototype.setCoordinates = function() {
-  if (this.walking === true) return;
+  if (this.npcData.walking === true) return;
 
   if (Math.random() > 0.98) {
     var npcDirection = Math.floor(Math.random() * 4)
     switch (npcDirection) {
       case 0:
-        this.targetY += this.walkingDistance;
+        this.targetY += this.npcData.walkDistance;
         break;
       case 1:
-        this.targetX -= this.walkingDistance;
+        this.targetX -= this.npcData.walkDistance;
         break;
       case 2:
-        this.targetX += this.walkingDistance;
+        this.targetX += this.npcData.walkDistance;
         break;
       case 3:
-        this.targetY -= this.walkingDistance;
+        this.targetY -= this.npcData.walkDistance;
         break;
     }
-    this.walking = true;
+    this.npcData.walking = true;
   }
 }
 
