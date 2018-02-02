@@ -47,18 +47,13 @@ Npc.prototype.checkCollisions = function(mapData) {
   var playerPosIndex = playerX + playerY * 8
   var tile = mapData.layers[1][playerPosIndex]
 
-  if (tile === 7 || tile === 5 || tile === 6) {
-    return true
-  }
+  if (tile === 7 || tile === 5 || tile === 6) return true;
 }
 
 Npc.prototype.setCoordinates = function() {
-  if (this.walking === true) {
-    return;
-  }
-  var npcWalk = Math.random() > 0.98
+  if (this.walking === true) return;
 
-  if (npcWalk) {
+  if (Math.random() > 0.98) {
     var npcDirection = Math.floor(Math.random() * 4)
     switch (npcDirection) {
       case 0:

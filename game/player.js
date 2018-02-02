@@ -8,7 +8,7 @@ function Player(id, x, y) {
   this.pressingLeft = false;
   this.pressingUp = false;
   this.pressingDown = false;
-  this.maxSpd = 7;
+  this.maxSpd = 5;
   this.direction = 0;
   this.animCounter = 0;
 }
