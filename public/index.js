@@ -58,10 +58,6 @@ socket.on('update', function(d, m, l) {
       frameWidth * size,
       frameHeight * size
     );
-
-    ctx.fillStyle = 'pink'
-    ctx.fillRect(d[i].x, d[i].y, 4, 4);
-
   }
 })
 
