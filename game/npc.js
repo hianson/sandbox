@@ -1,23 +1,12 @@
-function Npc(id, x, y, spriteType, spriteCols, spriteRows, size) {
-  this.id = id;
-  this.x = x;
-  this.y = y;
-  this.targetX = this.x;
-  this.targetY = this.y;
-  this.maxSpd = 1;
-  this.direction = 0;
-  this.animCounter = 0;
-  this.animSpeed = 0.1
-  this.npcData = {
-    walkDistance: 40,
-    walking: false
-  }
-  this.spriteData = {
-    spriteType: spriteType,
-    spriteCols: spriteCols,
-    spriteRows: spriteRows,
-    walkingMod: Math.floor(this.animCounter) % spriteCols,
-    drawSize: 2
+var Character = require('./character.js');
+
+class Npc extends Character {
+  constructor(id, x, y, speed, walkDistance, spriteType, spriteCols, spriteRows, size) {
+    super(id, x, y, speed, spriteType, spriteCols, spriteRows, size)
+    this.npcData = {
+      walkDistance: walkDistance,
+      walking: false
+    }
   }
 }
 
@@ -30,19 +19,19 @@ Npc.prototype.updatePosition = function(mapData) {
   this.setCoordinates();
 
   if (this.x < this.targetX) {
-    distanceX < this.maxSpd ? this.x += distanceX : this.x += this.maxSpd;
+    distanceX < this.speed ? this.x += distanceX : this.x += this.speed;
     this.direction = 2
   }
   if (this.y > this.targetY) {
-    distanceY < this.maxSpd ? this.y -= distanceY : this.y -= this.maxSpd;
+    distanceY < this.speed ? this.y -= distanceY : this.y -= this.speed;
     this.direction = 3
   }
   if (this.x > this.targetX) {
-    distanceX < this.maxSpd ? this.x -= distanceX : this.x -= this.maxSpd;
+    distanceX < this.speed ? this.x -= distanceX : this.x -= this.speed;
     this.direction = 1
   }
   if (this.y < this.targetY) {
-    distanceY < this.maxSpd ? this.y += distanceY : this.y += this.maxSpd;
+    distanceY < this.speed ? this.y += distanceY : this.y += this.speed;
     this.direction = 0
   }
   this.animCounter += this.animSpeed

@@ -28,24 +28,14 @@ var PLAYER_LIST = {};
 var NPC_LIST = {};
 
 var chicken = new npcObject(
-  123,
-  100,
-  300,
-  "chicken",
-  2,
-  5
+  123, 100, 300, 1, 40, "chicken", 2, 5, 2
 );
 PLAYER_LIST[123] = chicken;
 
 io.sockets.on('connection', function(socket) {
   socket.id = Math.random();
   var player = new playerObject(
-    socket.id,
-    300,
-    300,
-    "player",
-    3,
-    4
+    socket.id, 300, 300, 5, "player", 3, 4, 3
   );
   SOCKET_LIST[socket.id] = socket;
   PLAYER_LIST[socket.id] = player;
@@ -65,8 +55,6 @@ io.sockets.on('connection', function(socket) {
 
   socket.on('onMouseDown', function(data) {
     player.setCoordinates(data);
-    console.log(PLAYER_LIST)
-
   })
 
   socket.on('disconnect', function() {

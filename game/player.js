@@ -1,23 +1,12 @@
-function Player(id, x, y, spriteType, spriteCols, spriteRows, size) {
-  this.id = id;
-  this.x = x;
-  this.y = y;
-  this.targetX = this.x;
-  this.targetY = this.y;
-  // DRY up keyboard presses
-  this.pressingRight = false;
-  this.pressingLeft = false;
-  this.pressingUp = false;
-  this.pressingDown = false;
-  this.maxSpd = 5;
-  this.direction = 0;
-  this.animCounter = 0;
-  this.spriteData = {
-    spriteType: spriteType,
-    spriteCols: spriteCols,
-    spriteRows: spriteRows,
-    walkingMod: Math.floor(this.animCounter) % spriteCols,
-    drawSize: 3
+var Character = require('./character.js');
+
+class Player extends Character {
+  constructor(id, x, y, speed, spriteType, spriteCols, spriteRows, size) {
+    super(id, x, y, speed, spriteType, spriteCols, spriteRows, size)
+    this.pressingRight = false;
+    this.pressingLeft = false;
+    this.pressingUp = false;
+    this.pressingDown = false;
   }
 }
 
@@ -27,25 +16,25 @@ Player.prototype.updatePosition = function(mapData) {
   var prevX = this.x
   var prevY = this.y
 
-  this.pressingRight ? (this.direction = 2, this.targetX += this.maxSpd) : null;
-  this.pressingLeft ? (this.direction = 1, this.targetX -= this.maxSpd) : null;
-  this.pressingUp ? (this.direction = 3, this.targetY -= this.maxSpd) : null;
-  this.pressingDown ? (this.direction = 0, this.targetY += this.maxSpd) : null;
+  this.pressingRight ? (this.direction = 2, this.targetX += this.speed) : null;
+  this.pressingLeft ? (this.direction = 1, this.targetX -= this.speed) : null;
+  this.pressingUp ? (this.direction = 3, this.targetY -= this.speed) : null;
+  this.pressingDown ? (this.direction = 0, this.targetY += this.speed) : null;
 
   if (this.x < this.targetX) {
-    distanceX < this.maxSpd ? this.x += distanceX : this.x += this.maxSpd;
+    distanceX < this.speed ? this.x += distanceX : this.x += this.speed;
     this.direction = 2
   }
   if (this.y > this.targetY) {
-    distanceY < this.maxSpd ? this.y -= distanceY : this.y -= this.maxSpd;
+    distanceY < this.speed ? this.y -= distanceY : this.y -= this.speed;
     this.direction = 3
   }
   if (this.x > this.targetX) {
-    distanceX < this.maxSpd ? this.x -= distanceX : this.x -= this.maxSpd;
+    distanceX < this.speed ? this.x -= distanceX : this.x -= this.speed;
     this.direction = 1
   }
   if (this.y < this.targetY) {
-    distanceY < this.maxSpd ? this.y += distanceY : this.y += this.maxSpd;
+    distanceY < this.speed ? this.y += distanceY : this.y += this.speed;
     this.direction = 0
   }
   this.animCounter += 0.3
