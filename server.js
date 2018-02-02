@@ -9,6 +9,7 @@ var serv = require('http').Server(app);
 
 //game vars
 var playerObject = require('./game/player.js');
+var npcObject = require('./game/npc.js');
 var mapObject = require('./game/map.js');
 
 const PORT = process.env.PORT || 3000
@@ -23,6 +24,10 @@ var io = require('socket.io')(serv, {});
 var mapData = new mapObject();
 var SOCKET_LIST = {};
 var PLAYER_LIST = {};
+var NPC_LIST = {};
+
+var chicken = new npcObject();
+NPC_LIST[chicken] = chicken;
 
 io.sockets.on('connection', function(socket) {
   socket.id = Math.random();
@@ -59,6 +64,19 @@ setInterval(function() {
 
   for (var i in PLAYER_LIST) {
     var player = PLAYER_LIST[i]
+
+    player.updatePosition(mapData);
+    playerData.push({
+      x: player.x,
+      y: player.y,
+      direction: player.direction,
+      animCounter: player.animCounter
+    })
+  }
+
+  for (var i in NPC_LIST) {
+    var player = NPC_LIST[i]
+
     player.updatePosition(mapData);
     playerData.push({
       x: player.x,
