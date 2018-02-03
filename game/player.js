@@ -1,4 +1,5 @@
 var Character = require('./character.js');
+var Map = require('./map.js');
 
 class Player extends Character {
   constructor(id, x, y, speed, animSpeed, spriteType, spriteCols, spriteRows, size) {
@@ -22,6 +23,7 @@ Player.prototype.updatePosition = function(mapData) {
   this.animCounter += this.animSpeed;
 
   this.checkCollisions(mapData) ? (this.x = prevX, this.y = prevY, this.targetX = this.x, this.targetY = this.y) : null;
+  Map.prototype.isCollision();
 }
 
 Player.prototype.handleKeypress = function() {

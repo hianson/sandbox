@@ -18,35 +18,48 @@ app.get('/', function(req, res) {
 app.use('/public', express.static(__dirname + '/public'));
 
 var io = require('socket.io')(serv, {});
-var map = new Map();
+var map = new Map(8, 8, 48, [[
+    1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 3, 4, 2, 1, 1, 1,
+    1, 1, 1, 1, 2, 1, 1, 1,
+    1, 1, 2, 1, 2, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1
+], [
+    7, 7, 7, 7, 7, 7, 7, 7,
+    7, 0, 0, 0, 0, 0, 0, 7,
+    7, 0, 0, 0, 0, 0, 0, 7,
+    7, 0, 5, 6, 0, 0, 0, 7,
+    7, 0, 0, 0, 0, 0, 0, 7,
+    7, 0, 0, 0, 0, 0, 0, 7,
+    7, 0, 0, 0, 0, 0, 0, 7,
+    7, 7, 7, 7, 7, 7, 7, 7
+]]);
 var SOCKET_LIST = {};
 var PLAYER_LIST = {};
 var NPC_LIST = {};
 
 var chicken = new Npc(
-  123, 100, 300, 1, 0.05, 40, "chicken", 2, 5, 2
+  123, 100, 300, 0.5, 0.05, 40, 0.99, "chicken", 2, 5, 2
 );
 PLAYER_LIST[123] = chicken;
 
 io.sockets.on('connection', function(socket) {
   socket.id = Math.random();
   var player = new Player(
-    socket.id, 300, 300, 5, 0.3, "player", 3, 4, 3
+    socket.id, 300, 300, 3, 0.3, "player", 3, 4, 3
   );
   SOCKET_LIST[socket.id] = socket;
   PLAYER_LIST[socket.id] = player;
   console.log('Connection made:', socket.id)
 
   socket.on('keyPress', function(data) {
-    if (data.inputId === 'left') {
-      player.pressingLeft = data.state;
-    } else if (data.inputId === 'right') {
-      player.pressingRight = data.state;
-    } else if (data.inputId === 'up') {
-      player.pressingUp = data.state;
-    } else if (data.inputId === 'down') {
-      player.pressingDown = data.state;
-    }
+    data.inputId === 'left' ? player.pressingLeft = data.state : null;
+    data.inputId === 'right' ? player.pressingRight = data.state : null;
+    data.inputId === 'up' ? player.pressingUp = data.state : null;
+    data.inputId === 'down' ? player.pressingDown = data.state : null;
   });
 
   socket.on('onMouseDown', function(data) {
@@ -80,7 +93,7 @@ setInterval(function() {
     var socket = SOCKET_LIST[i]
     socket.emit('update', packet, map, 0)
   }
-}, 1000/25)
+}, 1000/50)
 
 app.post('/test', (req, res) => {
   console.log('a post req was made!')
