@@ -2,8 +2,8 @@ var Character = require('./character.js');
 var Map = require('./map.js');
 
 class Player extends Character {
-  constructor(id, x, y, speed, animSpeed, spriteType, spriteCols, spriteRows, size) {
-    super(id, x, y, speed, animSpeed, spriteType, spriteCols, spriteRows, size)
+  constructor(id, x, y, speed, animSpeed, spriteType, size) {
+    super(id, x, y, speed, animSpeed, spriteType, size)
     this.pressingRight = false;
     this.pressingLeft = false;
     this.pressingUp = false;

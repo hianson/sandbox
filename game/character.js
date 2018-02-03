@@ -1,7 +1,7 @@
 var Map = require('./map.js')
 
 class Character {
-  constructor(id, x, y, speed, animSpeed, spriteType, spriteCols, spriteRows, size) {
+  constructor(id, x, y, speed, animSpeed, spriteType, size) {
     this.id = id;
     this.x = x;
     this.y = y;
@@ -13,11 +13,17 @@ class Character {
     this.animCounter = 0;
     this.spriteData = {
       spriteType: spriteType,
-      spriteCols: spriteCols,
-      spriteRows: spriteRows,
+      spriteCols: null,
+      spriteRows: null,
       drawSize: size
     }
+    this.setSpriteParams()
   }
+}
+
+Character.prototype.setSpriteParams = function() {
+  this.spriteData.spriteType === 'player' ? (this.spriteData.spriteCols = 3, this.spriteData.spriteRows = 4) : null;
+  this.spriteData.spriteType === 'chicken' ? (this.spriteData.spriteCols = 2, this.spriteData.spriteRows = 5) : null;
 }
 
 Character.prototype.checkCollisions = function(mapData) {
