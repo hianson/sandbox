@@ -23,7 +23,6 @@ Player.prototype.updatePosition = function(mapData) {
   this.animCounter += this.animSpeed;
 
   this.checkCollisions(mapData) ? (this.x = prevX, this.y = prevY, this.targetX = this.x, this.targetY = this.y) : null;
-  Map.prototype.isCollision();
 }
 
 Player.prototype.handleKeypress = function() {

@@ -7,6 +7,7 @@ app.use(bodyParser.json({extended: true}))
 var Player = require('./game/player.js');
 var Npc = require('./game/npc.js');
 var Map = require('./game/map.js');
+var services = require('./game/services.js');
 var serv = require('http').Server(app);
 
 const PORT = process.env.PORT || 3000
@@ -88,6 +89,8 @@ setInterval(function() {
       spriteData: character.spriteData,
     })
   }
+
+  packet.sort(services.sortYcoords)
 
   for (var i in SOCKET_LIST) {
     var socket = SOCKET_LIST[i]
